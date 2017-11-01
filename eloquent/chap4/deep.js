@@ -13,23 +13,6 @@ function showObj(inObj,depth) {
 
 	}
 }
-function countProps(obj) {
-	var count = 0
-	function check(obje) {
-		for (var a in obje) {
-			if( typeof obje[a] == "object") {
-				check(obje[a])
-				count++
-			}
-			else {
-				count++
-			}
-		}
-	}
-	check(obj)
-	return count
-
-}
 
 function deepComp(obj1,obj2) {
 	function contains(name,val,obj) {
@@ -41,7 +24,7 @@ function deepComp(obj1,obj2) {
 				if(v === name && obj[v] === val){
 					return true
 				}
-					
+
 			}
 		}
 		return false
@@ -49,7 +32,7 @@ function deepComp(obj1,obj2) {
 	function check(o1,o2) {
 		for (var v in o1){
 			if( typeof o1[v] == "object") { 
-				 return check(o1[v],o2)
+				return check(o1[v],o2)
 			}
 			else {
 				if(!contains(v,o1[v],o2)){
@@ -61,13 +44,33 @@ function deepComp(obj1,obj2) {
 	}
 
 	var res = check(obj1,obj2)
-	console.log(res)
+	if (res != true) return false
+
+	function countProps(obj) {
+		var count = 0
+		function check(obje) {
+			for (var a in obje) {
+				if( typeof obje[a] == "object") {
+					check(obje[a])
+					count++
+				}
+				else {
+					count++
+				}
+			}
+		}
+		check(obj)
+		return count
+
+	}
+
+	if (countProps(obj1) != countProps(obj2))
+		return false
+
+	return true
 
 
 }
-//showObj(obja,"")
 
-//deepComp(obja,objb)
 
-//console.log(countProps(obja))
-deepComp(obja,objb)
+console.log(deepComp(obja,objb))
